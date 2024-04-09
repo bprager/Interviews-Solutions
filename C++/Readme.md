@@ -1,0 +1,11 @@
+- Introduction
+- Some projects background on candidate
+- Theoretical question
+- Practical exercise (https://codeshare.io/)
+	- op.cpp
+	- lambda.cpp (lambda.md)
+	- constructor.cpp
+	- destructor.cpp
+	- handler.cpp
+	- pointer.cpp (pointer.md)
+	- fifteen.md

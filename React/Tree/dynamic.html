@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<! -- https://codeshare.io/g86nyR?title=React+Tree&modeName=TypeScript-JSX&tabSize=2&theme=monokai&keymap=sublime -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Directory Tree</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/c1672d9f4f.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="tree" class="tree"></div>
+
+    <script type="text/babel">
+      const Directory = ({ name, type, children }) => {
+        const [isOpen, setIsOpen] = React.useState(false);
+        const toggle = () => setIsOpen(!isOpen);
+
+        const iconClass = () => {
+          switch (type) {
+            case "folder":
+              return `fa-regular fa-${isOpen ? "folder-open" : "folder"}`;
+            case "img":
+              return "fa-regular fa-image";
+            case "html":
+              return "fa-brands fa-html5";
+            case "txt":
+              return "fa-regular fa-file-lines";
+            case "ico":
+              return "fa-regular fa-image"; // Assuming 'ico' uses the same icon as 'img'
+            case "css":
+              return "fa-brands fa-css3";
+            default:
+              return "fa-regular fa-file";
+          }
+        };
+
+        return (
+          <li
+            onClick={(e) => {
+              e.stopPropagation();
+              toggle();
+            }}
+          >
+            <i className={iconClass()} aria-hidden="true"></i> {name}
+            {isOpen && children && (
+              <ul>
+                {children.map((child, index) => (
+                  <Directory key={index} {...child} />
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      };
+
+      const DirectoryTree = ({ tree }) => {
+        return (
+          <ul>
+            <Directory {...tree} />
+          </ul>
+        );
+      };
+
+      const treeData = {
+        name: "Project",
+        type: "folder",
+        children: [
+          {
+            name: "imgs",
+            type: "folder",
+            children: [
+              { name: "cat.png", type: "img" },
+              { name: "dog.png", type: "img" },
+            ],
+          },
+          { name: "404.html", type: "html" },
+          { name: "LICENSE.txt", type: "txt" },
+          { name: "favixon.ico", type: "ico" },
+          { name: "index.html", type: "html" },
+          { name: "style.css", type: "css" },
+        ],
+      };
+
+      ReactDOM.render(
+        <DirectoryTree tree={treeData} />,
+        document.getElementById("tree")
+      );
+    </script>
+  </body>
+</html>
