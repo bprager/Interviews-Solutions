@@ -1,14 +1,16 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WordSearchInGrid {
-    private static final int[] dx = {-1, -1, -1, 0, 1, 1, 1, 0};
-    private static final int[] dy = {-1, 0, 1, 1, 1, 0, -1, -1};
+    private static final int[] dx = { -1, -1, -1, 0, 1, 1, 1, 0 };
+    private static final int[] dy = { -1, 0, 1, 1, 1, 0, -1, -1 };
     private static Set<String> foundWords = new HashSet<>();
     private static Trie dictionary = new Trie();
 
     public static Set<String> findWords(char[][] grid) {
-        if (grid == null || grid.length == 0 || grid[0].length == 0) return foundWords;
-        
+        if (grid == null || grid.length == 0 || grid[0].length == 0)
+            return foundWords;
+
         int n = grid.length;
         int m = grid[0].length;
         boolean[][] visited = new boolean[n][m];
@@ -18,12 +20,13 @@ public class WordSearchInGrid {
                 dfs(grid, i, j, "", visited);
             }
         }
-        
+
         return foundWords;
     }
 
     private static void dfs(char[][] grid, int x, int y, String currentWord, boolean[][] visited) {
-        if (!dictionary.startsWith(currentWord)) return;
+        if (!dictionary.startsWith(currentWord))
+            return;
 
         if (dictionary.contains(currentWord)) {
             foundWords.add(currentWord);
@@ -42,18 +45,21 @@ public class WordSearchInGrid {
 
     public static void main(String[] args) {
         char[][] grid = {
-            {'L', 'M', 'U', 'D'},
-            {'D', 'R', 'R', 'E'},
-            {'A', 'E', 'H', 'E'},
-            {'S', 'D', 'T', 'S'}
+                { 'L', 'M', 'U', 'D' },
+                { 'D', 'R', 'R', 'E' },
+                { 'A', 'E', 'H', 'E' },
+                { 'S', 'D', 'T', 'S' }
         };
 
-        // Example words to populate the dictionary
-        dictionary.insert("MUD");
-        dictionary.insert("RED");
-        dictionary.insert("REDHEAD");
-        dictionary.insert("DREADED");
-        dictionary.insert("STEERED");
+        // Define a list of dictionary words
+        String[] dictionaryWords = {
+                "MUD", "RED", "REDHEAD", "DREADED", "STEERED", "DREAM", "DARE", "READ", "DEAR", "SEARED"
+        };
+
+        // Insert words into the Trie from the predefined array
+        for (String word : dictionaryWords) {
+            dictionary.insert(word);
+        }
 
         Set<String> result = findWords(grid);
         System.out.println("Found words: " + result);
@@ -104,4 +110,3 @@ class Trie {
         private boolean isWord = false;
     }
 }
-
